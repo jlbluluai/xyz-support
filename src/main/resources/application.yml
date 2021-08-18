@@ -1,0 +1,19 @@
+xyz:
+  support:
+    file:
+      enable: true
+      local:
+        - serviceName: localFileService
+          localPath: xxx
+#      ftp:
+#        - serviceName: ftpFileService
+#        - serviceName: ftpImgService
+#      qiniu:
+#        - serviceName: qiNiuFileService
+#          accessKey: xxx
+#          secretKey: xxx
+#          bucket: xxx
+#          domain: xxx
+#          publicFlag: false
+
+debug: true
