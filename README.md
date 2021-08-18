@@ -55,47 +55,47 @@
 # 文件服务的启动标志 true/false
 xyz.support.file.enable=true
 
-# local文件服务配置 list形式
+# local文件服务配置 list形式 严格从0下标递增，否则不识别，application.yml中直接-替代（推荐）
 xyz.support.file.local...
 # 举例local
 # local服务名 必传（没有服务名配啥呢）
-xyz.support.file.local.serviceName=xxx
+xyz.support.file.local[0].serviceName=xxx
 # local指定的根路径 必传
-xyz.support.file.local.localPath=xxx
+xyz.support.file.local[0].localPath=xxx
 
 
-# ftp文件服务配置 list形式
+# ftp文件服务配置 list形式 严格从0下标递增，否则不识别，application.yml中直接-替代（推荐）
 xyz.support.file.ftp...
 # 举例ftp
 # ftp服务名 必传
-xyz.support.file.ftp.serviceName=xxx
+xyz.support.file.ftp[0].serviceName=xxx
 # ftp指定的host 不传默认为127.0.0.1
-xyz.support.file.ftp.host=127.0.0.1
+xyz.support.file.ftp[0].host=127.0.0.1
 # ftp指定的port 不传默认为21
-xyz.support.file.ftp.port=21
+xyz.support.file.ftp[0].port=21
 # ftp指定的timeout 不传默认为5000
-xyz.support.file.ftp.timeout=5000
+xyz.support.file.ftp[0].timeout=5000
 # ftp指定的username 必传
-xyz.support.file.ftp.username=xxx
+xyz.support.file.ftp[0].username=xxx
 # ftp指定的password 必传
-xyz.support.file.ftp.password=xxx
+xyz.support.file.ftp[0].password=xxx
 
 
-# 七牛云文件服务配置 list形式
+# 七牛云文件服务配置 list形式 严格从0下标递增，否则不识别，application.yml中直接-替代（推荐）
 xyz.support.file.qiniu...
 # 举例七牛云
 # 七牛云服务名 必传
-xyz.support.file.qiniu.serviceName=xxx
+xyz.support.file.qiniu[0].serviceName=xxx
 # 七牛云accessKey 必传
-xyz.support.file.qiniu.accessKey=xxx
+xyz.support.file.qiniu[0].accessKey=xxx
 # 七牛云secretKey 必传
-xyz.support.file.qiniu.secretKey=xxx
+xyz.support.file.qiniu[0].secretKey=xxx
 # 七牛云bucket（空间名） 必传
-xyz.support.file.qiniu.bucket=xxx
+xyz.support.file.qiniu[0].bucket=xxx
 # 七牛云domain（访问域名） 必传
-xyz.support.file.qiniu.domain=xxx
+xyz.support.file.qiniu[0].domain=xxx
 # 七牛云publicFlag（空间公开标志 true/false） 默认为false
-xyz.support.file.qiniu.publicFlag=false
+xyz.support.file.qiniu[0].publicFlag=false
 ```
 
 #### 使用例子
