@@ -19,6 +19,18 @@
 
 对Spring Boot项目进行相关统合的支持
 
+### 引入
+
+确保当前仓库有该包，暂未录入公共仓库，自行放入。
+
+```
+<dependency>
+    <groupId>com.xyz</groupId>
+    <artifactId>xyz-support</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
 ### 当前引用Spring Boot版本
 
 2.1.3.RELEASE
