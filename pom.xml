@@ -22,6 +22,7 @@
         <okhttp.version>3.14.2</okhttp.version>
         <commons-net.version>3.4</commons-net.version>
         <commons-io.version>2.11.0</commons-io.version>
+        <poi.version>3.9</poi.version>
     </properties>
 
     <dependencies>
@@ -72,6 +73,17 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
         </dependency>
 
         <dependency>

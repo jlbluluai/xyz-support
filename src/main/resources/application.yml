@@ -15,5 +15,14 @@ xyz:
 #          bucket: xxx
 #          domain: xxx
 #          publicFlag: false
+    document:
+      excel:
+        enable: true
+        bean:
+          - serviceName: excelService
+            ## type: poi、custom 选择非custom时都会自动选择该方式的默认实现作为服务
+            type: custom
+            ## 只有type为custom时配置该项有效 指定自定义作为服务的类的全限定类名（类实现ExcelOperation接口是基本的）
+            clazz: com.xyz.support.document.excel.poi.DefaultPoiExcelOperation
 
 debug: true
