@@ -2,15 +2,22 @@
 
 * [xyz-support](#xyz-support)
   * [介绍](#介绍)
+    * [引入](#引入)
     * [当前引用Spring Boot版本](#当前引用spring-boot版本)
     * [当前引用外部依赖的版本](#当前引用外部依赖的版本)
     * [当前已支持的服务](#当前已支持的服务)
       * [文件（对象存储）服务](#文件（对象存储）服务)
+      * [文档服务](#文档服务)
   * [手册](#手册)
     * [文件（对象存储）服务](#文件（对象存储）服务-1)
       * [配置](#配置)
       * [使用例子](#使用例子)
       * [api介绍](#api介绍)
+    * [文档服务](#文档服务-1)
+      * [excel服务](#excel服务)
+        * [配置](#配置-1)
+        * [使用例子](#使用例子-1)
+        * [api介绍](#api介绍-1)
 
 
 # xyz-support
@@ -43,6 +50,7 @@
 - okhttp：3.14.2
 - commons-net：3.4
 - commons-io：2.11.0
+- poi：3.9
 
 **提示**：以starter方式引用的话，上述外部依赖的版本若与本地不一致，以自身情况考量并存还是存其一； 若以普通jar引入，请注意引入上述依赖。或可对源码进行修改后运行无误后进行打包使用。
 
@@ -53,6 +61,12 @@
 - 本地存储已支持
 - Ftp存储已支持
 - 七牛云存储已支持
+- ...
+
+#### 文档服务
+
+- excel服务
+  - 使用poi（支持xls和xlsx操作）
 - ...
 
 ## 手册
@@ -146,3 +160,67 @@ private FileInterface localFileService;
 | String upload(MultipartFile file, String fileName, String filePath) | MultipartFile的方式上传，文件名取自定义，文件路径也取自定义（相对于当前服务根路径） |
 | File download(String fileName, String filePath) | 文件下载，提供File |
 | byte[] download(String fileName) | 文件下载，提供字节数组 |
+
+
+
+### 文档服务
+
+
+#### excel服务
+
+##### 配置
+
+**注意**：目前只支持Spring Boot的配置方式，即application.properties（application.yml）， 讲解将以application.properties进行（application.yml同理）。
+
+```
+# excel服务的启动标志 true/false
+xyz.support.document.excel.enable=true
+
+# excel服务bean配置 list形式 严格从0下标递增，否则不识别，application.yml中直接-替代（推荐）
+xyz.support.document.excel.bean...
+# 服务名 必传
+xyz.support.document.excel.bean[0].serviceName=xxx
+# 服务的类型  poi、custom 除了custom自定义，其他类型将选用默认的对应实现 不传默认为poi，但不能传错
+xyz.support.document.excel.bean[0].type=poi
+# 自定义服务的全限定类名 type选custom时需指定（若无法加载，将会报错）
+xyz.support.document.excel.bean[0].clazz=xxx
+```
+
+##### 使用例子
+
+
+假定进行了如下配置，以application.yml形式:
+
+```
+xyz:
+  support:
+    document:
+      excel:
+        enable: true
+        bean:
+          - serviceName: excelService
+            type: custom
+            clazz: com.xyz.support.document.excel.poi.DefaultPoiExcelOperation
+```
+
+若要对服务进行调用，业务服务中（按正常注入bean的方式即可）：
+
+```
+@Resource
+private ExcelOperation excelService;
+```
+
+
+
+#### api介绍
+
+**更详细的解释见`ExcelOperation`**
+
+| method | description|
+| --- | --- |
+| List<T> parse(File file, Class<T> resultType) | 解析excel到对应bean，忽略第一行数据（认为是头） |
+| List<T> parse(File file, boolean filterFirstRow, Class<T> resultType) | 解析excel到对应bean，忽不忽略第一行由调用方决定 |
+| void export(File target, Class<T> dataType, List<T> dataList) | 导出数据生成excel，数据按bean并由对应规则解析出来，导出到本地文件 |
+| void export(HttpServletResponse response, String fileName, Class<T> dataType, List<T> dataList) | 导出数据生成excel，数据按bean并由对应规则解析出来，通过网络导出 |
+| void export(File target, SheetItem sheetItem) | 导出数据生成excel，数据通过通用赋值对象传递，导出到本地文件 |
+| void export(HttpServletResponse response, String fileName, SheetItem sheetItem) | 导出数据生成excel，数据通过通用赋值对象传递，通过网络导出 |
