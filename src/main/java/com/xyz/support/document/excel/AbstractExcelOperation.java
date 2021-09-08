@@ -1,5 +1,7 @@
 package com.xyz.support.document.excel;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.util.List;
 
@@ -46,4 +48,8 @@ public abstract class AbstractExcelOperation implements ExcelOperation {
         return parse(file, true, resultType);
     }
 
+    @Override
+    public <T> List<T> parse(MultipartFile file, Class<T> resultType) throws Exception {
+        return parse(file, true, resultType);
+    }
 }

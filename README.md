@@ -52,7 +52,7 @@
 - commons-io：2.11.0
 - poi：3.9
 
-**提示**：以starter方式引用的话，上述外部依赖的版本若与本地不一致，以自身情况考量并存还是存其一； 若以普通jar引入，请注意引入上述依赖。或可对源码进行修改后运行无误后进行打包使用。
+**提示**：maven仓库方式引用的话，上述外部依赖的版本若与本地不一致，以自身情况考量并存还是存其一； 若以普通jar本地引入，请注意引入上述依赖。或可对源码进行修改后运行无误后进行打包使用。
 
 ### 当前已支持的服务
 
@@ -168,6 +168,8 @@ private FileInterface localFileService;
 
 #### excel服务
 
+提供的服务包含`解析excel成对象`和`导出对象成excel`，支持常规性的excel内容识别（标准的一行行数据，不要出现隐藏行，使用时请注意），支持常规类型数据的导出（包括Date，专属注解支持）。
+
 ##### 配置
 
 **注意**：目前只支持Spring Boot的配置方式，即application.properties（application.yml）， 讲解将以application.properties进行（application.yml同理）。
@@ -220,6 +222,8 @@ private ExcelOperation excelService;
 | --- | --- |
 | List<T> parse(File file, Class<T> resultType) | 解析excel到对应bean，忽略第一行数据（认为是头） |
 | List<T> parse(File file, boolean filterFirstRow, Class<T> resultType) | 解析excel到对应bean，忽不忽略第一行由调用方决定 |
+| List<T> parse(MultiFile file, Class<T> resultType) | 解析excel(MultipartFile)到对应bean，忽略第一行数据（认为是头） |
+| List<T> parse(MultiFile file, boolean filterFirstRow, Class<T> resultType) | 解析excel(MultipartFile)到对应bean，忽不忽略第一行由调用方决定 |
 | void export(File target, Class<T> dataType, List<T> dataList) | 导出数据生成excel，数据按bean并由对应规则解析出来，导出到本地文件 |
 | void export(HttpServletResponse response, String fileName, Class<T> dataType, List<T> dataList) | 导出数据生成excel，数据按bean并由对应规则解析出来，通过网络导出 |
 | void export(File target, SheetItem sheetItem) | 导出数据生成excel，数据通过通用赋值对象传递，导出到本地文件 |

@@ -141,9 +141,18 @@ public abstract class AbstractDefaultPoiExcelOperation extends AbstractPoiExcelO
         for (Pair<ExcelCell, Field> fieldPair : sortedFields) {
             Field field = fieldPair.getValue();
             Cell cell = row.getCell(count);
-            cell.setCellType(Cell.CELL_TYPE_STRING);
-            String value = cell.getStringCellValue();
-            field.set(target, convert2CorrectValue(value, field));
+            String value = "";
+            if (cell != null) {
+                cell.setCellType(Cell.CELL_TYPE_STRING);
+                value = cell.getStringCellValue();
+            }
+            Object val;
+            try {
+                val = convert2CorrectValue(value, field);
+            } catch (Exception e) {
+                throw new IllegalArgumentException(String.format("解析数据类型出错 数据:%s 数据字段:%s 数据类型:%s", value, field.getName(), field.getType()));
+            }
+            field.set(target, val);
             count++;
         }
 

@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -44,6 +45,26 @@ public class DefaultPoiExcelOperation extends AbstractDefaultPoiExcelOperation {
         }
 
         // parse sheet
+        return parse(sheet, filterFirstRow, resultType);
+    }
+
+    @Override
+    public <T> List<T> parse(MultipartFile file, boolean filterFirstRow, Class<T> resultType) throws Exception {
+        Assert.notNull(file, "excel文件必传");
+        Assert.notNull(resultType, "解析的结果类型必传");
+
+        // prepare Workbook
+        Workbook workbook = createWorkbook(file);
+        if (Objects.isNull(workbook)) {
+            throw new RuntimeException("无法解析该Excel");
+        }
+
+        // 默认认为只有一个sheet
+        Sheet sheet = workbook.getSheetAt(0);
+        if (Objects.isNull(sheet)) {
+            throw new RuntimeException("无法解析Excel的内容");
+        }
+
         return parse(sheet, filterFirstRow, resultType);
     }
 

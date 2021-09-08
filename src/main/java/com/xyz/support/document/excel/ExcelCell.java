@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 public @interface ExcelCell {
 
     /**
-     * 序列号, 从 0,1...
+     * 序列号, 从 0,1... 保证单调递增就行
      */
     int order();
 

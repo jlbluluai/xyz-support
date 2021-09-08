@@ -1,5 +1,7 @@
 package com.xyz.support.document.excel;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.List;
@@ -35,6 +37,30 @@ public interface ExcelOperation {
      * @return 解析后的POJO对象列表，若为空会返回空列表，不会返回null
      */
     <T> List<T> parse(File file, boolean filterFirstRow, Class<T> resultType) throws Exception;
+
+    /**
+     * 解析excel（MultipartFile）
+     * <p>
+     * 默认忽略第一行
+     *
+     * @param file       excel文件 只支持xls、xlsx后缀 cannot be null
+     * @param resultType 解析后的POJO对象类型 cannot be null
+     *                   如何对应解析可制定，默认的实现均解读{@link ExcelCell}
+     * @return 解析后的POJO对象列表，若为空会返回空列表，不会返回null
+     */
+    <T> List<T> parse(MultipartFile file, Class<T> resultType) throws Exception;
+
+    /**
+     * 解析excel（MultipartFile）
+     *
+     * @param file           excel文件 只支持xls、xlsx后缀 cannot be null
+     * @param filterFirstRow 判断是否过滤excel第一行 true/false
+     *                       若为true，第一行解析时会被忽略掉
+     * @param resultType     解析后的POJO对象类型 cannot be null
+     *                       如何对应解析可制定，默认的实现均解读{@link ExcelCell}
+     * @return 解析后的POJO对象列表，若为空会返回空列表，不会返回null
+     */
+    <T> List<T> parse(MultipartFile file, boolean filterFirstRow, Class<T> resultType) throws Exception;
 
     /**
      * 导出excel-到目标文件-通过解析POJO对象出数据

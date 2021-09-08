@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,6 +43,36 @@ public abstract class AbstractPoiExcelOperation extends AbstractExcelOperation {
         // 根据excel类型创建对应的workbook
         Workbook workbook;
         try (InputStream inputStream = new FileInputStream(file)) {
+            if (fileType.equalsIgnoreCase(XLS)) {
+                workbook = new HSSFWorkbook(inputStream);
+            } else if (fileType.equalsIgnoreCase(XLSX)) {
+                workbook = new XSSFWorkbook(inputStream);
+            } else {
+                throw new IllegalArgumentException("the suffix of fileName:'" + file.getName() + "' is not correct");
+            }
+        } catch (IOException e) {
+            throw new IOException(String.format("解析excel，解析 文件-%s 失败", file.getName()), e);
+        }
+        return workbook;
+    }
+
+    /**
+     * 创建Workbook
+     *
+     * @param file excel文件
+     * @return Workbook
+     */
+    protected final Workbook createWorkbook(MultipartFile file) throws IOException {
+        // 解析出文件类型
+        String fileName = file.getOriginalFilename();
+        if (fileName == null) {
+            throw new IllegalArgumentException("excel文件名未能解析");
+        }
+        String fileType = parseExcelType(fileName);
+
+        // 根据excel类型创建对应的workbook
+        Workbook workbook;
+        try (InputStream inputStream = file.getInputStream()) {
             if (fileType.equalsIgnoreCase(XLS)) {
                 workbook = new HSSFWorkbook(inputStream);
             } else if (fileType.equalsIgnoreCase(XLSX)) {
