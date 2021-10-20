@@ -31,11 +31,11 @@ public abstract class AbstractFileService implements FileInterface {
 
     @Override
     public String upload(File file, String fileName) throws Exception {
-        Assert.notNull(file, "文件不得为null");
         // 退化处理
         if (!StringUtils.hasText(fileName)) {
             return upload(file);
         }
+        Assert.notNull(file, "文件不得为null");
 
         // 若未携带扩展名根据原文件计算得出
         if (!existFileExtension(fileName)) {
@@ -95,11 +95,11 @@ public abstract class AbstractFileService implements FileInterface {
 
     @Override
     public String upload(MultipartFile file, String fileName) throws Exception {
-        Assert.notNull(file, "文件不得为null");
         // 退化处理
         if (!StringUtils.hasText(fileName)) {
             return upload(file);
         }
+        Assert.notNull(file, "文件不得为null");
 
         // 若未携带扩展名根据原文件计算得出
         if (!existFileExtension(fileName)) {
@@ -146,6 +146,30 @@ public abstract class AbstractFileService implements FileInterface {
         }
     }
 
+    @Override
+    public String upload(InputStream is, String fileName) throws Exception {
+        Assert.notNull(is, "流不得为null");
+        Assert.hasText(fileName, "文件名不得为空");
+
+        return doUpload(is, fileName, "");
+    }
+
+    @Override
+    public String upload(InputStream is, String fileName, String filePath) throws Exception {
+        // 退化处理
+        if (!StringUtils.hasText(filePath)) {
+            return upload(is, fileName);
+        }
+        Assert.notNull(is, "流不得为null");
+        Assert.hasText(fileName, "文件名不得为空");
+
+        // 处理文件路径
+        if (StringUtils.hasText(filePath) && !filePath.startsWith(SupportConstant.FILE_DELIMITER)) {
+            filePath = SupportConstant.FILE_DELIMITER + filePath;
+        }
+
+        return doUpload(is, fileName, filePath);
+    }
 
     /**
      * 以流的方式统一执行上传

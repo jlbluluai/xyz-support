@@ -5,6 +5,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * 文件处理接口
@@ -80,7 +81,7 @@ public interface FileInterface {
     /**
      * 网络文件的方式上传
      * <p>
-     * 文件名取自定义，文件路径在当前服务根路径
+     * 文件名取自定义，文件路径也取自定义（相对于当前服务根路径）
      * <p>
      * 注意有些文件存储不支持目录形式（比如七牛云），该方法不做开放，标明{@link Deprecated}，若调用程序会直接报错，请核对好文档
      *
@@ -93,6 +94,38 @@ public interface FileInterface {
      * @return 文件名（带扩展名）
      */
     String upload(MultipartFile file, String fileName, String filePath) throws Exception;
+
+    /**
+     * 流的方式上传
+     * <p>
+     * 文件名取自定义，文件路径在当前服务根路径
+     *
+     * @param is       流 cannot be null
+     *                 本方法只负责使用流，流关闭请调用方自主管理
+     * @param fileName 文件名 cannot be blank
+     *                 若需要扩展名请自行带上
+     *                 注意文件名请不要自主携带路径，可能发生不必要的问题
+     * @return 文件名（带扩展名）
+     */
+    String upload(InputStream is, String fileName) throws Exception;
+
+    /**
+     * 流的方式上传
+     * <p>
+     * 文件名取自定义，文件路径也取自定义（相对于当前服务根路径）
+     * <p>
+     * 注意有些文件存储不支持目录形式（比如七牛云），该方法不做开放，标明{@link Deprecated}，若调用程序会直接报错，请核对好文档
+     *
+     * @param is       流 cannot be null
+     *                 本方法只负责使用流，流关闭请调用方自主管理
+     * @param fileName 文件名 cannot be blank
+     *                 若需要扩展名请自行带上
+     *                 注意文件名请不要自主携带路径，可能发生不必要的问题
+     * @param filePath 文件路径 允许自定义相对于服务根路径的下级路径，不传则退化为默认根路径。
+     *                 注意有些文件存储不支持目录形式（比如七牛云），该方法不做开放，标明{@link Deprecated}，若调用程序会直接报错，请核对好文档
+     * @return 文件名（带扩展名）
+     */
+    String upload(InputStream is, String fileName, String filePath) throws Exception;
 
     /**
      * 文件下载

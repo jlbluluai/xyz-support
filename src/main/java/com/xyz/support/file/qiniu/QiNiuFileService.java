@@ -109,6 +109,11 @@ public class QiNiuFileService extends AbstractFileService {
     }
 
     @Override
+    public String upload(InputStream is, String fileName, String filePath) throws Exception {
+        throw new RuntimeException("七牛云不支持目录形式存储");
+    }
+
+    @Override
     protected String doUpload(InputStream is, String fileName, String filePath) {
         Configuration cfg = new Configuration(Region.autoRegion());
         UploadManager uploadManager = new UploadManager(cfg);

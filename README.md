@@ -158,6 +158,8 @@ private FileInterface localFileService;
 | String upload(MultipartFile file) | MultipartFile的方式上传，文件名取本名，文件路径在当前服务根路径 |
 | String upload(MultipartFile file, String fileName) | MultipartFile的方式上传，文件名取自定义，文件路径在当前服务根路径 |
 | String upload(MultipartFile file, String fileName, String filePath) | MultipartFile的方式上传，文件名取自定义，文件路径也取自定义（相对于当前服务根路径） |
+| String upload(InputStream is, String fileName) | 流的方式上传，文件名取自定义，文件路径在当前服务根路径 |
+| String upload(InputStream is, String fileName, String filePath) | 流的方式上传，文件名取自定义，文件路径也取自定义（相对于当前服务根路径） |
 | File download(String fileName, String filePath) | 文件下载，提供File |
 | byte[] download(String fileName) | 文件下载，提供字节数组 |
 
